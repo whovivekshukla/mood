@@ -1,8 +1,8 @@
 "use client";
 
-import { ResponsiveContainer, LineChart, Line, XAxis, Tooltip } from "recharts";
+import { ResponsiveContainer, LineChart, Line, Tooltip, XAxis } from "recharts";
 
-const CustomTooltip = ({ payload, label, active }) => {
+const customToolKit = ({ payload, label, active }) => {
   const dateLabel = new Date(label).toLocaleString("en-us", {
     weekday: "long",
     year: "numeric",
@@ -25,27 +25,23 @@ const CustomTooltip = ({ payload, label, active }) => {
       </div>
     );
   }
-
-  return null;
 };
 
 const HistoryChart = ({ data }) => {
   return (
-    <div>
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart width={300} height={100} data={data}>
-          <Line
-            type="monotone"
-            dataKey="sentimentScore"
-            stroke="#8884d8"
-            strokeWidth={2}
-            activeDot={{ r: 8 }}
-          />
-          <XAxis dataKey="createdAt" />
-          <Tooltip content={<CustomTooltip />} />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
+    <ResponsiveContainer width={"300"} height={"100%"}>
+      <LineChart width={300} height={100} data={data}>
+        <Line
+          dataKey="sentimentScore"
+          type="monotone"
+          stroke="#8884d8"
+          strokeWidth={2}
+          activeDot={{ r: 8 }}
+        />
+        <XAxis dataKey="createdAt" />
+        <Tooltip content={<customToolKit />} />
+      </LineChart>
+    </ResponsiveContainer>
   );
 };
 export default HistoryChart;
