@@ -9,7 +9,7 @@ This web application utilizes OpenAI GPT APIs to track and analyze your mood bas
 - **Tailwind**: A utility-first CSS framework for styling the app with ease.
 - **PlanetScale for DB**: Utilized for database management, ensuring scalability and reliability.
 - **Prisma ORM**: A powerful tool for database access and manipulation, enhancing data interaction.
--  **OpenAI API**: Harnesses the capabilities of OpenAI GPT APIs for mood analysis and responses.
+- **OpenAI API**: Harnesses the capabilities of OpenAI GPT APIs for mood analysis and responses.
 
 ### Getting Started
 
@@ -19,4 +19,3 @@ To run this app, follow these steps:
 2. Run `npm install` to install dependencies.
 3. Make a copy of the `.env.local.example` file and rename it to `.env.local`. Fill in all the required values.
 4. Run `npm run dev`. The app will be available at http://localhost:3000.
-
