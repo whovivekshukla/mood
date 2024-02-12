@@ -5,6 +5,7 @@ import { Document } from "langchain/document";
 import { loadQARefineChain } from "langchain/chains";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { z } from "zod";
 import {
@@ -55,33 +56,44 @@ const getPrompt = async (content) => {
   return input;
 };
 
+// export const analyze = async (content) => {
+//   const input = await getPrompt(content);
+//   // const model = new GooglePaLM({
+//   //   apiKey: process.env.GOOGLE_API_KEY,
+//   //   temperature: 0,
+//   //   modelName: "models/text-bison-001",
+//   // });
+//   const model = new OpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" });
+//   const output = await model.call(input);
+
+//   // console.log({ output });
+
+//   try {
+//     return parser.parse(output);
+//   } catch (e) {
+//     const fixParser = OutputFixingParser.fromLLM(
+//       // new GooglePaLM({
+//       //   apiKey: process.env.GOOGLE_API_KEY,
+//       //   temperature: 0,
+//       //   modelName: "models/text-bison-001",
+//       // }),
+//       new OpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" }),
+//       parser
+//     );
+//     const fix = await fixParser.parse(output);
+//     return fix;
+//   }
+// };
+
+const genAI = new GoogleGenerativeAI("AIzaSyCYJYK9m9Z-ZmJDLvtpKkGMq1GmRZHqbTw");
+
 export const analyze = async (content) => {
   const input = await getPrompt(content);
-  // const model = new GooglePaLM({
-  //   apiKey: process.env.GOOGLE_API_KEY,
-  //   temperature: 0,
-  //   modelName: "models/text-bison-001",
-  // });
-  const model = new OpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" });
-  const output = await model.call(input);
-
-  // console.log({ output });
-
-  try {
-    return parser.parse(output);
-  } catch (e) {
-    const fixParser = OutputFixingParser.fromLLM(
-      // new GooglePaLM({
-      //   apiKey: process.env.GOOGLE_API_KEY,
-      //   temperature: 0,
-      //   modelName: "models/text-bison-001",
-      // }),
-      new OpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" }),
-      parser
-    );
-    const fix = await fixParser.parse(output);
-    return fix;
-  }
+  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  const output = await model.generateContent(input);
+  const response = await output.response;
+  const text = response.text();
+  return parser.parse(text);
 };
 
 export const qa = async (question, entries) => {
